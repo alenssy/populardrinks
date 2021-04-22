@@ -1,4 +1,9 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap");
+@keyframes map_pin_active {
+  0%, 100% {
+    top: -65px; }
+  50% {
+    top: -75px; } }
 html, body {
   font-family: "Poppins", sans-serif; }
 
@@ -8,5 +13,54 @@ h1 {
 
 .accordion-button__img {
   margin-right: 10px; }
+
+.drinks__line {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  margin: 80px 0 50px 0;
+  position: relative; }
+  .drinks__line img {
+    position: relative; }
+    .drinks__line img:hover {
+      cursor: pointer;
+      transform: scale(1.2);
+      transition: 0.2s; }
+  .drinks__line::before {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 2px;
+    background: #000;
+    z-index: -1;
+    position: absolute;
+    bottom: 0; }
+
+.alcohol__text {
+  font-size: 9px;
+  position: absolute;
+  top: 4px;
+  text-align: center;
+  margin: 0; }
+.alcohol__popup {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  background-color: #e7f1ff;
+  border: 2px solid black;
+  border-radius: 50%;
+  position: absolute;
+  left: 9px;
+  animation: 1s infinite map_pin_active; }
+.alcohol__bg {
+  background-color: #f8c6c6; }
+
+.show__popup {
+  display: flex; }
+
+.positioning {
+  position: relative; }
 
 /*# sourceMappingURL=style.css.map */

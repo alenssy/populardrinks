@@ -37,18 +37,28 @@ const PopularDrinks = [
 	}
 ]
 
+const alcohol = [`Long Island`, `Mojito`, `Whisky`, `Wine`];
+
 const accordionDrinks = document.querySelector(`#accordionDrinks`);
+const drinksLine = document.querySelector(`#drinksLine`);
+
+const singleDrink = {
+	Coffee: data => new Coffee(data)
+}
 
 class Drinks{
     static createDrinks(arr){
         console.log(arr);
-        let drinks = arr
-            .map(drink => new Drink(drink))
-            .map((drink, index) => drink.renderDrink(index))
+        let drinks = arr.map(drink => singleDrink[drink.name] ? singleDrink[drink.name](drink) : new Drink(drink));
+		console.log(drinks);
+
+		let renderAccordionDrinks = drinks
+			.map((drink, index) => drink.renderDrink(index))
             .join(``);
 
-            accordionDrinks.innerHTML += drinks;
-        console.log(drinks);
+			drinks.map(drink => drink.renderLine())
+			// drinks.map(drink => drink.detectAlco());
+            accordionDrinks.innerHTML = renderAccordionDrinks;
     }
 }
 
@@ -67,7 +77,7 @@ class Drink{
         return `<div class="accordion-item">
                     <h2 class="accordion-header" id="heading${this.name.replace(' ','')}">
                     <button class="accordion-button ${index !=0 ? `collapsed` : ``}" type="button" data-bs-toggle="collapse" data-bs-target="#collapse${this.name.replace(' ','')}" aria-expanded="${index !=0 ? `false` : `true`}" aria-controls="collapse${this.name.replace(' ','')}">
-                        <img class="accordion-button__img" src="images/color/${this.name.replace(' ','_').toLowerCase()}.png" width="25" height="25">
+                        <img class="accordion-button__img" src="images/color/${this.name.replace(' ','_').toLowerCase()}.png" alt="${this.name}" width="35" height="35">
 						${this.name}
                     </button>
                     </h2>
@@ -76,6 +86,61 @@ class Drink{
                     </div>
                 </div>`
     }
+
+	renderLine(){
+		let divImg =document.createElement('div');
+		divImg.classList = `positioning`
+
+		let drink = document.createElement('img');
+		drink.id = `line${this.name.replace(' ', '')}`;
+		drink.src = `./images/color/${this.name.replace(' ', '_').toLowerCase()}.png`;
+		drink.alt = this.name;
+		drink.width = 70;
+
+		drink.addEventListener('click', () => {
+			console.log(`click ${this.name}`);
+			let btn = document.querySelector(`button[aria-controls="collapse${this.name.replace(' ', '')}"]`);
+			btn.click();
+		})
+
+		divImg.append(drink);
+
+		let popup = document.createElement('div');
+		popup.className = `alcohol__popup`;
+		
+		if(alcohol.includes(this.name)){
+			popup.innerHTML += `<img src="./images/alcohol.png" width="35">`;
+			popup.classList.add('alcohol__bg');
+		} else{
+			popup.innerHTML += `<img src="./images/no-alcohol.png" width="40">`;
+		}
+
+		drink.addEventListener('mouseover', () => {
+			popup.classList.add('show__popup');
+		})
+
+		drink.addEventListener('mouseout', () => {
+			popup.classList.remove('show__popup');
+		})
+
+		divImg.prepend(popup);
+
+		drinksLine.append(divImg);
+	}
+
+	// detectAlco(){
+	// 	if(alcohol.includes(this.name)){
+	// 		console.log(`${this.name} alcohol!`);
+	// 	}
+	// }
+
+
+}
+
+class Coffee extends Drink{
+	constructor(drink){
+		super(drink);
+	}
 }
 
 Drinks.createDrinks(PopularDrinks);
