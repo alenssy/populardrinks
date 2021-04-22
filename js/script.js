@@ -43,7 +43,7 @@ const accordionDrinks = document.querySelector(`#accordionDrinks`);
 const drinksLine = document.querySelector(`#drinksLine`);
 
 const singleDrink = {
-	Coffee: data => new Coffee(data)
+	Mojito: data => new Mojito(data)
 }
 
 class Drinks{
@@ -96,10 +96,7 @@ class Drink{
 		drink.alt = this.name;
 		drink.width = 70;
 
-		drink.addEventListener('click', () => {
-			let btn = document.querySelector(`button[aria-controls="collapse${this.name.replace(' ', '')}"]`);
-			btn.click();
-		})
+		drink.addEventListener('click', this.lineClick.bind(this)); 
 
 		drinkBlock.append(drink);
 
@@ -126,11 +123,50 @@ class Drink{
 		drinksLine.append(drinkBlock);
 	}
 
+	lineClick(){
+		let btn = document.querySelector(`button[aria-controls="collapse${this.name.replace(' ', '')}"]`);
+		btn.click();
+	}
+
 }
 
-class Coffee extends Drink{
+class Mojito extends Drink{
 	constructor(drink){
 		super(drink);
+
+		this.renderRecipe();
+	}
+
+	lineClick(){
+		super.lineClick();
+		this.showRecipe();
+	}
+
+	showRecipe(){
+		let recipe = document.querySelector('#recipe');
+		recipe.classList.toggle('show__recipe');
+	}
+
+	renderRecipe(){
+		let recipeBlock = document.querySelector('#recipeBlock');
+		recipeBlock.classList.add('recipe__block');
+		let recipe = document.createElement('div');
+		recipe.id = `recipe`;
+		recipe.classList.add('recipe');
+		recipe.innerHTML = `<div>
+								<h6>Ingredients of ${this.name}</h6>
+								<img src="./images/color/${this.name.replace(' ', '_').toLowerCase()}.png" alt="${this.name}" width="80">
+							</div>
+							<ul>
+								<li>10 fresh mint leaves, plus more for garnish</li>
+								<li>2 ounces (4 tablespoons) white rum</li>
+								<li>1 ounce (2 tablespoons) fresh lime juice</li>
+								<li>2–3 teaspoons honey simple syrup (see below), to taste</li>
+								<li>ice</li>
+								<li>club soda</li>
+							</ul>`;
+
+		recipeBlock.append(recipe);
 	}
 }
 
