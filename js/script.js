@@ -88,8 +88,8 @@ class Drink{
     }
 
 	renderLine(){
-		let divImg =document.createElement('div');
-		divImg.classList = `positioning`
+		let drinkBlock =document.createElement('div');
+		drinkBlock.classList = `positioning`
 
 		let drink = document.createElement('img');
 		drink.id = `line${this.name.replace(' ', '')}`;
@@ -103,7 +103,7 @@ class Drink{
 			btn.click();
 		})
 
-		divImg.append(drink);
+		drinkBlock.append(drink);
 
 		let popup = document.createElement('div');
 		popup.className = `alcohol__popup`;
@@ -123,17 +123,10 @@ class Drink{
 			popup.classList.remove('show__popup');
 		})
 
-		divImg.prepend(popup);
+		drinkBlock.prepend(popup);
 
-		drinksLine.append(divImg);
+		drinksLine.append(drinkBlock);
 	}
-
-	// detectAlco(){
-	// 	if(alcohol.includes(this.name)){
-	// 		console.log(`${this.name} alcohol!`);
-	// 	}
-	// }
-
 
 }
 
