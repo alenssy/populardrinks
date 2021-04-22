@@ -57,7 +57,6 @@ class Drinks{
             .join(``);
 
 			drinks.map(drink => drink.renderLine())
-			// drinks.map(drink => drink.detectAlco());
             accordionDrinks.innerHTML = renderAccordionDrinks;
     }
 }
@@ -98,7 +97,6 @@ class Drink{
 		drink.width = 70;
 
 		drink.addEventListener('click', () => {
-			console.log(`click ${this.name}`);
 			let btn = document.querySelector(`button[aria-controls="collapse${this.name.replace(' ', '')}"]`);
 			btn.click();
 		})
